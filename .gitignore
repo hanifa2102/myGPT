@@ -1,0 +1,6 @@
+data/
+.ipynb*
+__pycache__*
+.llmenv*
+.vscode*
+apikey.py

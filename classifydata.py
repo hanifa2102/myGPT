@@ -19,18 +19,17 @@ class ClassifyData:
     def classify_UNSPSC(tabular_data):
         prompt=f"""
         You must classify the products delimited by triple backticks:
-        1.Provide the output with the following keys only
+        1.Provide the output with the following keys only :
         {{
             "index":,
             "Product Description": ,
-            "UNSPSC coding":,
-            "Segment": ,
-            "Family": ,
-            "Class": ,
-            "Commodity": 
+            "UNSPSC":,
+            "UNSPSC's Segment": ,
+            "UNSPSC's Family": ,
+            "UNSPSC's Class": ,
+            "UNSPSC's Commodity": 
         }}
         2.No AI introduction, No AI analysis, Return generated Json data only without backticks, Not human-readable, No backticks in output
-        3.If not sure, please at least guess the UNSPSC coding. 
         ```{tabular_data}```"""
         print(prompt)
         response=ClassifyData.get_completion(prompt)

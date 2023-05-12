@@ -30,6 +30,7 @@ class ClassifyData:
             "UNSPSC's Commodity": 
         }}
         2.No AI introduction, No AI analysis, Return generated Json data only without backticks, Not human-readable, No backticks in output
+        3. If it is null, please at guess an UNSPSC code
         ```{tabular_data}```"""
         print(prompt)
         response=ClassifyData.get_completion(prompt)

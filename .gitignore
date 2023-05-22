@@ -4,3 +4,4 @@ __pycache__*
 .llmenv*
 .vscode*
 apikey.py
+src/mydatabase.db

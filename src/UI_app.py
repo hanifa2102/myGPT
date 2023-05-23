@@ -99,15 +99,18 @@ def main():
         text_input = st.text_input("Enter Natural Query for the above table",placeholder="Find the number of fruits per Shape")
         if st.button("Convert to SQL"):
             print(text_input)
-            st.write(DB.getColsDB())
+            with st.expander('Table Schema'):
+                st.write(DB.getColsDB())
             response=LLM_API.get_sql(text_input)
-            st.write(response)
+            with st.expander('SQL command received'):
+                st.write(response)
+            st.success("Query Result displayed below!")
             AgGrid(DB.execDB(response),theme='dark')
-        if st.button("Testing sql"):
-            response='''SELECT Shape, COUNT(1) 
-                        FROM mytable
-                        GROUP BY Shape;'''
-            AgGrid(DB.execDB(response),theme='dark')
+        # if st.button("Testing sql"):
+        #     response='''SELECT Shape, COUNT(1) 
+        #                 FROM mytable
+        #                 GROUP BY Shape;'''
+        #     AgGrid(DB.execDB(response),theme='dark')
 
 if __name__ == "__main__":
     main()

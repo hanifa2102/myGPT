@@ -9,16 +9,19 @@ class DB:
     def pushDb(df):
         df.to_sql(name="mytable", con=DB.engine, if_exists='replace',index=False) 
 
-    @staticmethod
-    def execDB(sqlString):
-        with DB.engine.connect() as conn:
-            result = conn.execute(sqlalchemy.text(sqlString))
-            df = pd.DataFrame(result.fetchall(), columns=result.keys())
-        return df  
+    # @staticmethod
+    # def execDB(sqlString):
+    #     with DB.engine.connect() as conn:
+    #         result = conn.execute(sqlalchemy.text(sqlString))
+    #         df = pd.DataFrame(result.fetchall(), columns=result.keys())
+    #     return df  
     
     @staticmethod
     def getColsDB():
-        ''' Get Col names from table (assume single table)'''
+        '''
+        Part of the prompt to be sent to server. 
+        Get Col names from table (assume single table)
+        '''
         retString=None
         inspector = sqlalchemy.inspect(DB.engine)
         table_names = inspector.get_table_names()
@@ -33,14 +36,27 @@ class DB:
         retString+="]"
         return retString
     
+    # @staticmethod
+    # def read_data_from_database():
+    # # Establish a connection
+    #     with DB.engine.connect() as connection:
+    #         # Execute a SQL query and retrieve data
+    #         query = sqlalchemy.text("SELECT * FROM mytable")
+    #         result = connection.execute(query)
+
+    #         # Convert the result to a Pandas DataFrame
+    #         df = pd.DataFrame(result.fetchall(), columns=result.keys())
+    #         return df
+        
     @staticmethod
-    def read_data_from_database():
-    # Establish a connection
+    def readDB(sqlString='SELECT * FROM mytable'):
+        # Establish a connection
         with DB.engine.connect() as connection:
             # Execute a SQL query and retrieve data
-            query = sqlalchemy.text("SELECT * FROM mytable")
+            query = sqlalchemy.text(sqlString)
             result = connection.execute(query)
 
             # Convert the result to a Pandas DataFrame
             df = pd.DataFrame(result.fetchall(), columns=result.keys())
             return df
+        

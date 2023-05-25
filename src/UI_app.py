@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import os
 import openai
-from st_aggrid import AgGrid
+from st_aggrid import AgGrid,GridUpdateMode
 import sys
 sys.path.append('..')
 from llm_api import LLM_API
@@ -41,8 +41,8 @@ def sendServer(df,label):
 
     with st.expander('Inputs'):
         st.write(input[0])
-        AgGrid(input[1],theme='dark')
-        AgGrid(input[2],theme='dark')
+        AgGrid(input[1],theme='dark',key='gridsendServer0')
+        AgGrid(input[2],theme='dark',key='gridsendServer1')
 
     st.divider()
 
@@ -52,7 +52,9 @@ def sendServer(df,label):
         st.write(result)
     merged_df=pd.merge(input[2],result,on=['index'],how='inner')
     st.success(f"Data has been labelled with : {label}")
-    AgGrid(merged_df,theme='dark')
+    st.dataframe(merged_df)
+    # BUG : Not able to refresh the AgGrid tables 
+    # AgGrid(merged_df,theme='dark',key='gridsendServer2')
   
 # UI Components
 def upload_file(key):
@@ -75,10 +77,10 @@ def main():
     with tab1:
         st.header("Labelling tabular data : ")
         st.caption("Load a csv file.Choose the label to annotate the data with. Click ChatGPT Label.")
-        df=upload_file('label')
+        tab1_df=upload_file('label')
 
         # Create a row layout using the 'with' statement
-        col1, col2, col3, col4 = st.columns(4)
+        col1, col2, col3, col4,col5,col6 = st.columns(6)
         with col1:
             btn=st.button("ChatGPT Label:")
         with col2:
@@ -86,42 +88,52 @@ def main():
         with col3:
             st.button('Standardise:',disabled=True)
         with col4:
-            st.button("Missing Columns:",disabled=True)
+            st.button("Impute Missing Values:",disabled=True)
+        with col5:
+            st.button("Drop Column/Row: ",disabled=True)
+        with col6:
+            st.button("Remove Duplicates: ",disabled=True)
 
-        if df is not None:
+        if tab1_df is not None:
             # Editable cells   
-            grid_return=AgGrid(df,editable=True,height=180,theme='dark')
-            df=grid_return['data']
+            grid_return=AgGrid(tab1_df,editable=True,height=180,theme='dark',key='gridmain0')
+            tab1_df=grid_return['data']
          
-        if btn:
-            sendServer(df,user_prompt_input)
+        if btn and user_prompt_input and tab1_df is not None:
+            sendServer(tab1_df,user_prompt_input)
+        else:
+            st.error("Label is required.")
 
     with tab2 :
         st.header("Natural Language Querying : ")
         st.caption("Input file with text is loaded.")
-        df=upload_file('query')
-        if df is not None:
-            AgGrid(df,theme='dark')
+        tab2_df=upload_file('query')
+        if tab2_df is not None:
+            AgGrid(tab2_df,theme='dark',key='gridmain1',fit_columns_on_grid_load=True)
 
         # text_input = st.text_input("Enter table to load into database")
         # Button to process uploaded file and entered text
         if st.button("Load DB"):
-            if df is not None:
-                DB.pushDb(df)
+            if tab2_df is not None:
+                DB.pushDb(tab2_df)
                 st.success("DataFrame saved to database successfully!")
-                AgGrid(DB.readDB(),theme='dark')
+                with st.expander("Read in table from DB"):
+                    AgGrid(DB.readDB(),theme='dark',key='gridmain2')
 
 
         text_input = st.text_input("Enter Natural Query for the above table",placeholder="Find the number of fruits per Shape")
-        if st.button("Convert to SQL"):
+        if st.button("ChatGPT Query"):
             print(text_input)
             with st.expander('Table Schema'):
                 st.write(DB.getColsDB())
             response=LLM_API.get_sql(text_input)
-            with st.expander('SQL command received'):
-                st.write(response)
             st.success("Query Result displayed below!")
-            AgGrid(DB.readDB(sqlString=response),theme='dark')
+            temp_df=DB.readDB(response)
+            with st.expander('Response'):
+                st.write(response)
+            st.dataframe(temp_df)    
+            # AgGrid(temp_df,theme='dark',key='gridmain3',reload_data=False, update_mode=GridUpdateMode.MODEL_CHANGED)
+            
 
 
 if __name__ == "__main__":

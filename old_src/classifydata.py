@@ -66,4 +66,8 @@ class ClassifyData:
     #     X=str(X).replace('{','{{',).replace('}','}}')
         
     #     return (X,X_df,Y_df)
-    
+
+
+
+# Find fruits which have higher fibre than the average and lower sugar than the average ? Also display their fibre and sugar
+# Segment and count the fruits per Shape ?

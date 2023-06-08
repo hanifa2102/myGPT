@@ -22,7 +22,7 @@ The application is built up upon the streamlit app and written in python only. U
     ```
 1. Install requirements.txt
     ```sh
-    pip i nstall -r requirements.txt
+    pip install -r requirements.txt
     ```
 2. Create apikey.py file as below
     ```

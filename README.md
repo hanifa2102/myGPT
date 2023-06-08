@@ -12,7 +12,7 @@ The application is built up upon the streamlit app and written in python only. U
 1. Register and get an openAI key
     * <a href="https://www.howtogeek.com/885918/how-to-get-an-openai-api-key/"> Link here</a>
 
-2. Tested on python 3.10.6
+2. Tested on python 3.10.6 / Windows environment
 
 ### Installation
 * (Optional) If using virtual environments.
@@ -24,7 +24,7 @@ The application is built up upon the streamlit app and written in python only. U
     ```sh
     pip install -r requirements.txt
     ```
-2. Create apikey.py file as below
+2. Create src\apikey.py file as below
     ```
     apikey = 'youropenaikey'
     ```

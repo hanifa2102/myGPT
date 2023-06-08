@@ -5,3 +5,7 @@ __pycache__*
 .vscode*
 apikey.py
 src/mydatabase.db
+src/deleteit.py
+old_src/*
+docs/*
+.gitignore

@@ -25,7 +25,7 @@ st.markdown(css, unsafe_allow_html=True)
 def get_sampleDataset(df,sample_size=5):
     '''TODO: Non Parameterized. Takes first 2 columns,index and name of entity'''
     # sample_df=df.sample(sample_size)
-    assert(df.shape[0]==5)
+    assert(df.shape[0]<=5)
     sample_df=df
     X_df_all=sample_df.reset_index()
     X_df=X_df_all[X_df_all.columns[0:2]]
@@ -109,16 +109,20 @@ def main():
         st.caption("Input file with text is loaded.")
         tab2_df=upload_file('query')
         if tab2_df is not None:
-            AgGrid(tab2_df,theme='dark',key='gridmain1',fit_columns_on_grid_load=True)
+            st.success('File Uploaded. Loading to DB.')
+            DB.pushDb(tab2_df)
+            AgGrid(DB.readDB(),theme='dark',key='gridmain2')
+            st.success("DataFrame saved to database successfully!")
+            # AgGrid(tab2_df,theme='dark',key='gridmain1',fit_columns_on_grid_load=True)
 
         # text_input = st.text_input("Enter table to load into database")
         # Button to process uploaded file and entered text
-        if st.button("Load DB"):
-            if tab2_df is not None:
-                DB.pushDb(tab2_df)
-                st.success("DataFrame saved to database successfully!")
-                with st.expander("Read in table from DB"):
-                    AgGrid(DB.readDB(),theme='dark',key='gridmain2')
+        # if st.button("Load DB"):
+        #     if tab2_df is not None:
+        #         DB.pushDb(tab2_df)
+        #         st.success("DataFrame saved to database successfully!")
+        #         # with st.expander("Read in table from DB"):
+        #         AgGrid(DB.readDB(),theme='dark',key='gridmain2')
 
 
         text_input = st.text_input("Enter Natural Query for the above table",placeholder="Find the number of fruits per Shape")

@@ -18,7 +18,7 @@ The application is built up upon the streamlit app and written in python only. U
 * (Optional) If using virtual environments.
     ```sh
     python -m venv .myenv
-    source .myenv/bin/activate
+     .\.myenv\Scripts\activate
     ```
 1. Install requirements.txt
     ```sh

@@ -3,7 +3,7 @@
 Two use cases on LLM (Large Language Models) have been developed here. Both of them run on tabular data. Watch the video link below for clearer understanding.
 1. Labelling/Annotation
 2. Natural Language Querying
-[![Watch the video](img/video_ss.png)](https://youtu.be/voQPdIdZ0xA)
+[![Watch the video](img/video_ss.png)](https://drive.google.com/file/d/18ZLKLBb4sbx0ddhC43CZE8M6SoGsEuNA/view?usp=drive_link)
 
 ## Getting Started
 The application is built up upon the streamlit app and written in python only. Upon installation, the app can be run and used. Notebooks in the /notebooks/ directory are not guranteed to run and are mostly used for experimentation only.

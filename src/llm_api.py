@@ -23,6 +23,7 @@ class LLM_API:
     @staticmethod
     def do_label(tabular_data,label):
         
+        system_prompt='You are an expert in labelling and speak only JSON.Do not write normal text.'
         prompt=f"""
         You must classify the products delimited by triple backticks:
         1.Provide the output as a JSON string with the following keys only:
@@ -35,7 +36,7 @@ class LLM_API:
         4.DO NOT add either the (data,output) as keys.
         ```{tabular_data}```"""
         print(prompt)
-        response=LLM_API.get_completion(prompt,'You are an expert in labelling and speak only JSON.Do not write normal text.')
+        response=LLM_API.get_completion(prompt,system_prompt)
         print(f'response:\t{response}')
         response_dict=json.loads(response)
         print(f'response_dict:\t{response_dict}')

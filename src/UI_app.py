@@ -8,6 +8,7 @@ sys.path.append('..')
 from llm_api import LLM_API
 from db import DB
 from apikey import apikey
+from utility import Utility
 
 os.environ['OPENAI_API_KEY']=apikey
 openai.api_key  = os.getenv('OPENAI_API_KEY')
@@ -22,22 +23,9 @@ css = '''
 
 st.markdown(css, unsafe_allow_html=True)
 
-def get_sampleDataset(df,sample_size=5):
-    '''TODO: Non Parameterized. Takes first 2 columns,index and name of entity'''
-    # sample_df=df.sample(sample_size)
-    assert(df.shape[0]<=5)
-    sample_df=df
-    X_df_all=sample_df.reset_index()
-    X_df=X_df_all[X_df_all.columns[0:2]]
-
-    X=X_df.to_dict(orient='records')
-    X=str(X).replace('{','{{',).replace('}','}}')
-        
-    return (X,X_df,X_df_all)
-
-def sendServer(df,label):
+def sendLabelling(df,label):
     st.write("<font color='red'>Send Server.</font>", unsafe_allow_html=True)
-    input=get_sampleDataset(df) 
+    input=Utility.csv_to_openai(df) 
 
     with st.expander('Inputs'):
         st.write(input[0])
@@ -80,19 +68,11 @@ def main():
         tab1_df=upload_file('label')
 
         # Create a row layout using the 'with' statement
-        col1, col2, col3, col4,col5,col6 = st.columns(6)
+        col1, col2 = st.columns(2)
         with col1:
             btn=st.button("ChatGPT Label:")
         with col2:
             user_prompt_input = st.text_input(".",placeholder="Enter Label to annonate the data: ",label_visibility="collapsed")
-        with col3:
-            st.button('Standardise:',disabled=True)
-        with col4:
-            st.button("Impute Missing Values:",disabled=True)
-        with col5:
-            st.button("Drop Column/Row: ",disabled=True)
-        with col6:
-            st.button("Remove Duplicates: ",disabled=True)
 
         if tab1_df is not None:
             # Editable cells   
@@ -100,7 +80,7 @@ def main():
             tab1_df=grid_return['data']
          
         if btn and user_prompt_input and tab1_df is not None:
-            sendServer(tab1_df,user_prompt_input)
+            sendLabelling(tab1_df,user_prompt_input)
         else:
             st.error("Label is required.")
 
@@ -113,17 +93,6 @@ def main():
             DB.pushDb(tab2_df)
             AgGrid(DB.readDB(),theme='dark',key='gridmain2')
             st.success("DataFrame saved to database successfully!")
-            # AgGrid(tab2_df,theme='dark',key='gridmain1',fit_columns_on_grid_load=True)
-
-        # text_input = st.text_input("Enter table to load into database")
-        # Button to process uploaded file and entered text
-        # if st.button("Load DB"):
-        #     if tab2_df is not None:
-        #         DB.pushDb(tab2_df)
-        #         st.success("DataFrame saved to database successfully!")
-        #         # with st.expander("Read in table from DB"):
-        #         AgGrid(DB.readDB(),theme='dark',key='gridmain2')
-
 
         text_input = st.text_input("Enter Natural Query for the above table",placeholder="Find the number of fruits per Shape")
         if st.button("ChatGPT Query"):

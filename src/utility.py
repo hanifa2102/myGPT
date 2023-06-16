@@ -5,7 +5,7 @@ class Utility:
     def csv_to_openai(df):
         '''TODO: Non Parameterized. Takes first 2 columns,index and name of entity'''
         # sample_df=df.sample(sample_size)
-        assert(df.shape[0]<=5)
+        assert(df.shape[0]<=10)
         X_df_all=df.reset_index()
         # Just choose first column
         X_df=X_df_all[X_df_all.columns[0:2]]

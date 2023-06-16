@@ -23,7 +23,7 @@ css = '''
 
 st.markdown(css, unsafe_allow_html=True)
 
-def sendLabelling(df,label):
+def sendLabelling(df,label,isUNSPSC=False):
     st.write("<font color='red'>Send Server.</font>", unsafe_allow_html=True)
     input=Utility.csv_to_openai(df) 
 
@@ -34,7 +34,10 @@ def sendLabelling(df,label):
 
     st.divider()
 
-    result=LLM_API.do_label(input[0],label)
+    if isUNSPSC:
+        result=LLM_API.do_UNSPSC_label(input[0],label)
+    else:
+        result=LLM_API.do_label(input[0],label)
     st.subheader('After Classifying with OpenAI Api.......')
     with st.expander('Response'):
         st.write(result)
@@ -59,7 +62,7 @@ def main():
 
     # Sidebar components
     # prompt_text_input = st.sidebar.text_input("Pls enter the label", on_change=text_input_callback,placeholder="...")
-    st.title("DARC LLM Usage (ChatGPT)")
+    st.title("DARC LLM Usage ")
     tab1,tab2=st.tabs(["Labelling tabular data : ","Natural Language Querying : "])
     
     with tab1:
@@ -68,11 +71,13 @@ def main():
         tab1_df=upload_file('label')
 
         # Create a row layout using the 'with' statement
-        col1, col2 = st.columns(2)
+        col1, col2,col3 = st.columns(3)
         with col1:
             btn=st.button("ChatGPT Label:")
         with col2:
             user_prompt_input = st.text_input(".",placeholder="Enter Label to annonate the data: ",label_visibility="collapsed")
+        with col3:
+            sp_btn=st.button("UNSPSC Button.")
 
         if tab1_df is not None:
             # Editable cells   
@@ -81,8 +86,14 @@ def main():
          
         if btn and user_prompt_input and tab1_df is not None:
             sendLabelling(tab1_df,user_prompt_input)
+        elif sp_btn and tab1_df is not None:
+            sendLabelling(tab1_df,'Family',isUNSPSC=True)
         else:
             st.error("Label is required.")
+        
+        # if sp_btn and tab1_df is not None:
+        #     sendLabelling(tab1_df,'Family',isUNSPSC=True)
+        #     # st.success("UNSPSC Coding done.")
 
     with tab2 :
         st.header("Natural Language Querying : ")

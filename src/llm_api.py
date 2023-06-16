@@ -42,7 +42,95 @@ class LLM_API:
         print(f'response_dict:\t{response_dict}')
         
         #TODO : From_dict to be encapsulated within try/catch block
-        return pd.DataFrame.from_dict(response_dict)  
+        return pd.DataFrame.from_dict(response_dict) 
+
+    @staticmethod
+    def do_UNSPSC_label(tabular_data,label):
+        """
+        In-context learning with UNSPSC family labels provided.
+        TODO : To merge do_label and do_UNSPSC_label methods together.
+        """
+        
+        system_prompt='You are an expert in labelling and speak only JSON.Do not write normal text.'
+        prompt=f"""
+        You must classify the products delimited by triple backticks:
+        1.Provide the output as a JSON string with the following keys only:
+        {{
+            "index":,
+            "{label}":,
+        }}
+        2.No AI introduction, No AI analysis, Return generated Json data only without backticks, Not human-readable, Remove backticks in output.
+        3.If no {label} is found, guess a {label}.
+        4.DO NOT add either the (data,output) as keys.
+        5.Label the data according to the reference file delimited by triple tilde.
+        ```{tabular_data}```
+        ~~~
+        [
+            {{
+            "Family": "Communications Devices and Accessories"
+            }},
+            {{
+            "Family": "Components for information technology or broadcasting or telecommunications"
+            }},
+            {{
+            "Family": "Computer Equipment and Accessories"
+            }},
+            {{
+            "Family": "Data Voice or Multimedia Network Equipment or Platforms and Accessories"
+            }},
+            {{
+            "Family": "Software"
+            }},
+            {{
+            "Family": "Printing and publishing equipment"
+            }},
+            {{
+            "Family": "Audio and visual presentation and composing equipment"
+            }},
+            {{
+            "Family": "Human resources services"
+            }},
+            {{
+            "Family": "Legal services"
+            }},
+            {{
+            "Family": "Real estate services"
+            }},
+            {{
+            "Family": "Business administration services"
+            }},
+            {{
+            "Family": "Professional engineering services"
+            }},
+            {{
+            "Family": "Computer services"
+            }},
+            {{
+            "Family": "Information Technology Service Delivery"
+            }},
+            {{
+            "Family": "Advertising"
+            }},
+            {{
+            "Family": "Writing and translations"
+            }},
+            {{
+            "Family": "Telecommunications media services"
+            }},
+            {{
+            "Family": "Information services"
+            }}
+        ]
+        ~~~
+        """
+        print(prompt)
+        response=LLM_API.get_completion(prompt,system_prompt)
+        print(f'response:\t{response}')
+        response_dict=json.loads(response)
+        print(f'response_dict:\t{response_dict}')
+        
+        #TODO : From_dict to be encapsulated within try/catch block
+        return pd.DataFrame.from_dict(response_dict)   
     
     @staticmethod
     def get_sql(nlp_query):

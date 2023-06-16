@@ -67,58 +67,58 @@ class LLM_API:
         ~~~
         [
             {{
-            "Family": "Communications Devices and Accessories"
+            "Family(UNSPSC)": "Communications Devices and Accessories"
             }},
             {{
-            "Family": "Components for information technology or broadcasting or telecommunications"
+            "Family(UNSPSC)": "Components for information technology or broadcasting or telecommunications"
             }},
             {{
-            "Family": "Computer Equipment and Accessories"
+            "Family(UNSPSC)": "Computer Equipment and Accessories"
             }},
             {{
-            "Family": "Data Voice or Multimedia Network Equipment or Platforms and Accessories"
+            "Family(UNSPSC)": "Data Voice or Multimedia Network Equipment or Platforms and Accessories"
             }},
             {{
-            "Family": "Software"
+            "Family(UNSPSC)": "Software"
             }},
             {{
-            "Family": "Printing and publishing equipment"
+            "Family(UNSPSC)": "Printing and publishing equipment"
             }},
             {{
-            "Family": "Audio and visual presentation and composing equipment"
+            "Family(UNSPSC)": "Audio and visual presentation and composing equipment"
             }},
             {{
-            "Family": "Human resources services"
+            "Family(UNSPSC)": "Human resources services"
             }},
             {{
-            "Family": "Legal services"
+            "Family(UNSPSC)": "Legal services"
             }},
             {{
-            "Family": "Real estate services"
+            "Family(UNSPSC)": "Real estate services"
             }},
             {{
-            "Family": "Business administration services"
+            "Family(UNSPSC)": "Business administration services"
             }},
             {{
-            "Family": "Professional engineering services"
+            "Family(UNSPSC)": "Professional engineering services"
             }},
             {{
-            "Family": "Computer services"
+            "Family(UNSPSC)": "Computer services"
             }},
             {{
-            "Family": "Information Technology Service Delivery"
+            "Family(UNSPSC)": "Information Technology Service Delivery"
             }},
             {{
-            "Family": "Advertising"
+            "Family(UNSPSC)": "Advertising"
             }},
             {{
-            "Family": "Writing and translations"
+            "Family(UNSPSC)": "Writing and translations"
             }},
             {{
-            "Family": "Telecommunications media services"
+            "Family(UNSPSC)": "Telecommunications media services"
             }},
             {{
-            "Family": "Information services"
+            "Family(UNSPSC)": "Information services"
             }}
         ]
         ~~~

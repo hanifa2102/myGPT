@@ -87,7 +87,7 @@ def main():
         if btn and user_prompt_input and tab1_df is not None:
             sendLabelling(tab1_df,user_prompt_input)
         elif sp_btn and tab1_df is not None:
-            sendLabelling(tab1_df,'Family',isUNSPSC=True)
+            sendLabelling(tab1_df,'Family(UNSPSC)',isUNSPSC=True)
         else:
             st.error("Label is required.")
         

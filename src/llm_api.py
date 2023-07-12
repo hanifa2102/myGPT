@@ -27,13 +27,17 @@ class LLM_API:
         prompt=f"""
         You must classify the products delimited by triple backticks:
         1.Provide the output as a JSON string with the following keys only:
+        [{{
+            "index":,
+            "{label}":,
+        }},
         {{
             "index":,
             "{label}":,
         }}
+        ]
         2.No AI introduction, No AI analysis, Return generated Json data only without backticks, Not human-readable, Remove backticks in output.
         3.If no {label} is found, guess a {label}.
-        4.DO NOT add either the (data,output) as keys.
         ```{tabular_data}```"""
         print(prompt)
         response=LLM_API.get_completion(prompt,system_prompt)
@@ -55,13 +59,18 @@ class LLM_API:
         prompt=f"""
         You must classify the products delimited by triple backticks:
         1.Provide the output as a JSON string with the following keys only:
+        [
+        {{
+            "index":,
+            "{label}":,
+        }},
         {{
             "index":,
             "{label}":,
         }}
+        ]
         2.No AI introduction, No AI analysis, Return generated Json data only without backticks, Not human-readable, Remove backticks in output.
         3.If no {label} is found, guess a {label}.
-        4.DO NOT add either the (data,output) as keys.
         5.Label the data according to the reference file delimited by triple tilde.
         ```{tabular_data}```
         ~~~

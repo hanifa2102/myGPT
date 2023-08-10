@@ -5,7 +5,7 @@ from db import DB
 
 class LLM_API:
     @staticmethod
-    def get_completion(prompt, system_content,model="gpt-3.5-turbo"):
+    def get_completion(prompt, system_content,model="gpt-4"):
         
         messages = [{'role':'system', 'content':system_content},
                     {"role": "user", "content": prompt}]
